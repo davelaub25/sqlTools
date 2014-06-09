@@ -9,13 +9,24 @@ namespace sqlTools
 {
     public class DAL
     {
-        public static DataTable getMetaData(String connString)
+        public static DataTable getTableMetaData(String connString)
         {
             var con = new SqlConnection(connString);
             Console.WriteLine("Attempting to connect to database");
             con.Open();
             Console.WriteLine("Connected");
             var schema = con.GetSchema("Tables");
+            DisplayData(schema);
+            con.Close();
+            return schema;
+        }
+        public static DataTable getDbaseMetaData(String connString)
+        {
+            var con = new SqlConnection(connString);
+            Console.WriteLine("Attempting to connect to database");
+            con.Open();
+            Console.WriteLine("Connected");
+            var schema = con.GetSchema("Databases");
             DisplayData(schema);
             con.Close();
             return schema;
@@ -34,6 +45,16 @@ namespace sqlTools
                 }
                 Console.WriteLine("============================");
             }
+        }
+        public static String buildConnString(String username, String pass, String serverName)
+        {
+            String conn = String.Format("user id={0}; password={1}; server={2}; Trusted_Connection=yes; connection timeout=30", username, pass, serverName);
+            return conn;
+        }
+        public static String buildConnString(String username, String pass, String serverName, String dbaseName)
+        {
+            String conn = String.Format("user id={0}; password={1}; server={2}; Database={3}; Trusted_Connection=yes; connection timeout=30", username, pass, serverName, dbaseName);
+            return conn;
         }
     }
 }

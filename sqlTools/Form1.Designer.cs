@@ -1,7 +1,10 @@
-﻿namespace sqlTools
+﻿using System;
+
+namespace sqlTools
 {
     partial class Form1
     {
+        private string user = Environment.UserName;
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -26,6 +29,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        /// 
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
@@ -50,7 +54,7 @@
             // tableList
             // 
             this.tableList.FormattingEnabled = true;
-            this.tableList.Location = new System.Drawing.Point(550, 111);
+            this.tableList.Location = new System.Drawing.Point(302, 38);
             this.tableList.Name = "tableList";
             this.tableList.Size = new System.Drawing.Size(120, 394);
             this.tableList.TabIndex = 1;
@@ -61,7 +65,7 @@
             this.userText.Name = "userText";
             this.userText.Size = new System.Drawing.Size(140, 20);
             this.userText.TabIndex = 2;
-            this.userText.Text = "User Name";
+            this.userText.Text = user;
             this.userText.TextChanged += new System.EventHandler(this.userText_TextChanged);
             this.userText.GotFocus += new System.EventHandler(this.userText_GotFocus);
             // 
@@ -100,6 +104,7 @@
             this.dbaseList.Name = "dbaseList";
             this.dbaseList.Size = new System.Drawing.Size(138, 95);
             this.dbaseList.TabIndex = 6;
+            this.dbaseList.SelectedIndexChanged += new System.EventHandler(this.dbaseList_SelectedIndexChanged);
             // 
             // Form1
             // 

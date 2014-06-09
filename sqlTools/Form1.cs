@@ -24,7 +24,7 @@ namespace sqlTools
         private void button1_Click(object sender, EventArgs e)
         {   
             Console.WriteLine("Button Clicked");
-            DataTable schema = DAL.getMetaData(conn);
+            DataTable schema = DAL.getTableMetaData(conn);
             populateTableList(schema);
         }
 
@@ -50,10 +50,7 @@ namespace sqlTools
         {
             foreach (System.Data.DataRow row in table.Rows)
             {
-                foreach (System.Data.DataColumn col in table.Columns)
-                {
-                    dbaseList.Items.Add(row[table.Columns.IndexOf("TABLE_CATALOG")]);
-                }
+                 dbaseList.Items.Add(row[table.Columns.IndexOf("database_name")]);
             }
         }
         private void userText_GotFocus(object sender, EventArgs e)
@@ -75,17 +72,18 @@ namespace sqlTools
         }
 
         private void serverList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DataTable schema = DAL.getMetaData(conn);
+        {   
+            dbaseList.Items.Clear();
+            DataTable schema = DAL.getDbaseMetaData(DAL.buildConnString(userText.Text,passwordText.Text,serverList.Text));
             populateDbaseList(schema);
         }
-        private void buildConnString(String username, String pass, String serverName)
-        {
 
-        }
-        private void buildConnString(String username, String pass, String serverName, String dbaseName)
+        private void dbaseList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            tableList.Items.Clear();
+            DataTable schema = DAL.getTableMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
+            populateTableList(schema);
         }
+        
     }
 }
