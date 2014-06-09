@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Web.UI.WebControls;
 
 namespace sqlTools
 {
     partial class Form1
     {
-        private string user = Environment.UserName;
+        
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -39,6 +40,11 @@ namespace sqlTools
             this.refreshServerListButton = new System.Windows.Forms.Button();
             this.passwordText = new System.Windows.Forms.TextBox();
             this.dbaseList = new System.Windows.Forms.ListBox();
+            this.userNameLabel = new System.Windows.Forms.Label();
+            this.passwordLabel = new System.Windows.Forms.Label();
+            this.serverListLabel = new System.Windows.Forms.Label();
+            this.dbaseListLabel = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // button1
@@ -54,25 +60,25 @@ namespace sqlTools
             // tableList
             // 
             this.tableList.FormattingEnabled = true;
-            this.tableList.Location = new System.Drawing.Point(302, 38);
+            this.tableList.Location = new System.Drawing.Point(511, 31);
             this.tableList.Name = "tableList";
-            this.tableList.Size = new System.Drawing.Size(120, 394);
+            this.tableList.Size = new System.Drawing.Size(137, 95);
             this.tableList.TabIndex = 1;
             // 
             // userText
             // 
-            this.userText.Location = new System.Drawing.Point(12, 12);
+            this.userText.Location = new System.Drawing.Point(12, 28);
             this.userText.Name = "userText";
-            this.userText.Size = new System.Drawing.Size(140, 20);
+            this.userText.Size = new System.Drawing.Size(198, 20);
             this.userText.TabIndex = 2;
-            this.userText.Text = user;
+            this.userText.Text = "dlaub";
             this.userText.TextChanged += new System.EventHandler(this.userText_TextChanged);
             this.userText.GotFocus += new System.EventHandler(this.userText_GotFocus);
             // 
             // serverList
             // 
             this.serverList.FormattingEnabled = true;
-            this.serverList.Location = new System.Drawing.Point(12, 38);
+            this.serverList.Location = new System.Drawing.Point(221, 31);
             this.serverList.Name = "serverList";
             this.serverList.Size = new System.Drawing.Size(140, 95);
             this.serverList.TabIndex = 3;
@@ -80,7 +86,7 @@ namespace sqlTools
             // 
             // refreshServerListButton
             // 
-            this.refreshServerListButton.Location = new System.Drawing.Point(12, 139);
+            this.refreshServerListButton.Location = new System.Drawing.Point(218, 132);
             this.refreshServerListButton.Name = "refreshServerListButton";
             this.refreshServerListButton.Size = new System.Drawing.Size(75, 23);
             this.refreshServerListButton.TabIndex = 4;
@@ -90,9 +96,9 @@ namespace sqlTools
             // 
             // passwordText
             // 
-            this.passwordText.Location = new System.Drawing.Point(158, 12);
+            this.passwordText.Location = new System.Drawing.Point(12, 67);
             this.passwordText.Name = "passwordText";
-            this.passwordText.Size = new System.Drawing.Size(138, 20);
+            this.passwordText.Size = new System.Drawing.Size(198, 20);
             this.passwordText.TabIndex = 5;
             this.passwordText.Text = "Password";
             this.passwordText.UseSystemPasswordChar = true;
@@ -100,17 +106,65 @@ namespace sqlTools
             // dbaseList
             // 
             this.dbaseList.FormattingEnabled = true;
-            this.dbaseList.Location = new System.Drawing.Point(158, 38);
+            this.dbaseList.Location = new System.Drawing.Point(367, 31);
             this.dbaseList.Name = "dbaseList";
             this.dbaseList.Size = new System.Drawing.Size(138, 95);
             this.dbaseList.TabIndex = 6;
             this.dbaseList.SelectedIndexChanged += new System.EventHandler(this.dbaseList_SelectedIndexChanged);
             // 
+            // userNameLabel
+            // 
+            this.userNameLabel.AutoSize = true;
+            this.userNameLabel.Location = new System.Drawing.Point(9, 12);
+            this.userNameLabel.Name = "userNameLabel";
+            this.userNameLabel.Size = new System.Drawing.Size(55, 13);
+            this.userNameLabel.TabIndex = 7;
+            this.userNameLabel.Text = "Username";
+            // 
+            // passwordLabel
+            // 
+            this.passwordLabel.AutoSize = true;
+            this.passwordLabel.Location = new System.Drawing.Point(12, 51);
+            this.passwordLabel.Name = "passwordLabel";
+            this.passwordLabel.Size = new System.Drawing.Size(53, 13);
+            this.passwordLabel.TabIndex = 8;
+            this.passwordLabel.Text = "Password";
+            // 
+            // serverListLabel
+            // 
+            this.serverListLabel.AutoSize = true;
+            this.serverListLabel.Location = new System.Drawing.Point(218, 12);
+            this.serverListLabel.Name = "serverListLabel";
+            this.serverListLabel.Size = new System.Drawing.Size(89, 13);
+            this.serverListLabel.TabIndex = 9;
+            this.serverListLabel.Text = "Available Servers";
+            // 
+            // dbaseListLabel
+            // 
+            this.dbaseListLabel.AutoSize = true;
+            this.dbaseListLabel.Location = new System.Drawing.Point(367, 12);
+            this.dbaseListLabel.Name = "dbaseListLabel";
+            this.dbaseListLabel.Size = new System.Drawing.Size(104, 13);
+            this.dbaseListLabel.TabIndex = 10;
+            this.dbaseListLabel.Text = "Available Databases";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(300, 132);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(61, 23);
+            this.progressBar1.TabIndex = 11;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(682, 595);
+            this.ClientSize = new System.Drawing.Size(658, 595);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.dbaseListLabel);
+            this.Controls.Add(this.serverListLabel);
+            this.Controls.Add(this.passwordLabel);
+            this.Controls.Add(this.userNameLabel);
             this.Controls.Add(this.dbaseList);
             this.Controls.Add(this.passwordText);
             this.Controls.Add(this.refreshServerListButton);
@@ -134,6 +188,13 @@ namespace sqlTools
         private System.Windows.Forms.Button refreshServerListButton;
         private System.Windows.Forms.TextBox passwordText;
         private System.Windows.Forms.ListBox dbaseList;
+        private System.Windows.Forms.Label userNameLabel;
+        private System.Windows.Forms.Label passwordLabel;
+        private System.Windows.Forms.Label serverListLabel;
+        private System.Windows.Forms.Label dbaseListLabel;
+        private Table table1;
+        private Table spTable;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

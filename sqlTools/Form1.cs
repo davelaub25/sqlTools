@@ -45,6 +45,7 @@ namespace sqlTools
                     serverList.Items.Add(row[table.Columns.IndexOf("ServerName")]);
                 }    
             }
+            progressBar1.Value = 100;
         }
         private void populateDbaseList(System.Data.DataTable table)
         {
@@ -84,6 +85,5 @@ namespace sqlTools
             DataTable schema = DAL.getTableMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
             populateTableList(schema);
         }
-        
     }
 }
