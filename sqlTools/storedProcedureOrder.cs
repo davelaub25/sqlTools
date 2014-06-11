@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace sqlTools
 {
-    class storedProcedureOrder
+    public class StoredProcedureOrder
     {
         public String dbase;
         public String schema;
         public String name;
         public bool newProcedure;
-        public ArrayList parameters;
+        public ArrayList parameters;    
         public ArrayList fields;
         public String type;
         public bool doBy;
@@ -21,7 +21,7 @@ namespace sqlTools
         public String output;
         public String tableName;
 
-        public storedProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, ArrayList parametersIn, ArrayList fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String outputIn, String tableNameIn)
+        public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, ArrayList parametersIn, ArrayList fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String outputIn, String tableNameIn)
         {
             this.dbase = dbaseIn;
             this.schema = schemaIn;

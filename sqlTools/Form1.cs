@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,10 +24,24 @@ namespace sqlTools
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {   
-            Console.WriteLine("Button Clicked");
-            DataTable schema = DAL.getTableMetaData(conn);
-            populateTableList(schema);
+        {
+//            StoredProcedureOrder spo = new StoredProcedureOrder("DTAMM", "user_system", "test procedure", true, new ArrayList(2), new ArrayList(2), "Create", false, null, "ID", "USERS");
+//            Object[] o = {spo};
+//            DataTable dt = GetDataTableFromObjects(o);
+//            storedProcedureOrderGridView.DataSource = dt;
+            System.Windows.Forms.DataGridViewTextBoxColumn Title = new DataGridViewTextBoxColumn();
+            System.Windows.Forms.DataGridViewTextBoxColumn Author = new DataGridViewTextBoxColumn();
+            System.Windows.Forms.DataGridViewTextBoxColumn Publisher = new DataGridViewTextBoxColumn();
+            System.Windows.Forms.DataGridViewTextBoxColumn City = new DataGridViewTextBoxColumn();
+            System.Windows.Forms.DataGridViewTextBoxColumn Year = new DataGridViewTextBoxColumn();
+            storedProcedureOrderGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            Title,
+            Author,
+            Publisher,
+            City,
+            Year});
+            string[] row0 = { "C# 3.0 Pocket Reference", "Albahari", "O'Reilly", "Sebastopol, CA", "2008" };
+            storedProcedureOrderGridView.Rows.Add(row0);
         }
 
         private void populateTableList(System.Data.DataTable table)
@@ -84,6 +100,34 @@ namespace sqlTools
             tableList.Items.Clear();
             DataTable schema = DAL.getTableMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
             populateTableList(schema);
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        public static DataTable GetDataTableFromObjects(object[] objects)
+        {
+            if (objects != null && objects.Length > 0)
+            {
+                Type t = objects[0].GetType();
+                DataTable dt = new DataTable(t.Name);
+                foreach (PropertyInfo pi in t.GetProperties())
+                {
+                    dt.Columns.Add(new DataColumn(pi.Name));
+                }
+                foreach (var o in objects)
+                {
+                    DataRow dr = dt.NewRow();
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        dr[dc.ColumnName] = o.GetType().GetProperty(dc.ColumnName).GetValue(o, null);
+                    }
+                    dt.Rows.Add(dr);
+                }
+                return dt;
+            }
+            return null;
         }
     }
 }
