@@ -35,6 +35,20 @@ namespace sqlTools
             this.output = outputIn;
             this.tableName = tableNameIn;
         }
+        public StoredProcedureOrder()
+        {
+            this.dbase = null;
+            this.schema = null;
+            this.name = null;
+            this.newProcedure = false;
+            this.parameters = null;
+            this.fields = null;
+            this.type = null;
+            this.doBy = false;
+            this.doByParameter = null;
+            this.output = null;
+            this.tableName = null;
+        }
         /////////////////////Sets///////////////////////////////////////////////
         public void setDbase(String dbaseIn)
         {
