@@ -31,10 +31,11 @@ namespace sqlTools
 
         private void button1_Click(object sender, EventArgs e)
         {
+            List<DataGridViewRow> dgvrList = new List<DataGridViewRow>();
+            dgvrList.Add(storedProcedureOrderGridView.Rows[0]);
+            List<StoredProcedureOrder> spoList = datgridViewToSPO(dgvrList);
+            Console.WriteLine(spoList[0].dbase);
 
-            testSpo.setFieldValue("dbase", true);
-            Console.WriteLine(testSpo.dbase);
-            
         }
 
         private void populateTableList(System.Data.DataTable table)
@@ -122,36 +123,23 @@ namespace sqlTools
 
             foreach (DataGridViewRow gridViewRow in gridViewRowList)
             {
-                
-                
+                StoredProcedureOrder spo = new StoredProcedureOrder();
 
                 foreach (DataGridViewCell cell in gridViewRow.Cells)
                 {
                     String cellColumnHeader = cell.DataGridView.Columns[cell.ColumnIndex].Name;
                     if (!cellColumnHeader.Contains("Button"))
                     {
-                        switch (testSpo.getFieldType(cellColumnHeader))
-                        {
-                            case "Stystem.String":
-                                //CaseZero();
-                                break;
-                            case "System.Collections.Generic.List`1[System.String]":
-                                //CaseOne();
-                                break;
-                            case "System.Boolean":
-                                //CaseTwo();
-                                break;
-                            default:
-                                //CaseOthers();
-                                break;
-                        }
+
+                        spo.setFieldValue(cell.DataGridView.Columns[cell.ColumnIndex].Name, cell.Value);
                         //spo.GetType().GetProperty(cellColumnHeader).SetValue();
                     }
                 }
+                spoList.Add(spo);
 
             }
             
-            return null;
+            return spoList;
 
         } 
 
