@@ -16,43 +16,25 @@ namespace sqlTools
     {
         bool userFlag = false;
 
-        string conn = "user id=dlaub; password=pooper1; server=10.10.10.10; Trusted_Connection=yes; connection timeout=30";
+        static string conn = "user id=dlaub; password=pooper1; server=10.10.10.10; Trusted_Connection=yes; connection timeout=30"; //For test purposes only
+        
+        StoredProcedureOrder testSpo = new StoredProcedureOrder("Test DBase", "Test Schema", "Test Name", true, //For test purposes only
+            new List<string>(2), new List<string>(2), "Type in", true, "Test Parameter", 
+            "Test Output", "Test Table Name");
+
+        static DataTable _orderTable = new DataTable();
 
         public Form1()
         {
             InitializeComponent();
-            StoredProcedureOrder sp = new StoredProcedureOrder();
-            int counter = 0;
-            foreach (FieldInfo property in sp.GetType().GetFields())
-            {
-                //storedProcedureOrderGridView.Columns.Add(property.Name, property.Name);
-                if (property.FieldType.Name.ToString() == "Boolean")
-                {
-                    DataGridViewCheckBoxColumn chkBoxCol = new DataGridViewCheckBoxColumn();
-                    storedProcedureOrderGridView.Columns.Insert(counter, chkBoxCol);
-                    storedProcedureOrderGridView.Columns[counter].ValueType = property.FieldType;
-                    storedProcedureOrderGridView.Columns[counter].HeaderText = property.Name;
-                    storedProcedureOrderGridView.Columns[counter].DefaultCellStyle.ForeColor.Equals(Color.DarkGray);
-                    storedProcedureOrderGridView.Columns[counter].DefaultCellStyle.BackColor.Equals(Color.DimGray);
-                }
-                else
-                {
-                    storedProcedureOrderGridView.Columns[storedProcedureOrderGridView.Columns.Add(property.Name, property.Name)].ValueType = property.FieldType;
-                    storedProcedureOrderGridView.Columns[counter].DefaultCellStyle.ForeColor.Equals(Color.DarkGray);
-                    storedProcedureOrderGridView.Columns[counter].DefaultCellStyle.BackColor.Equals(Color.DimGray);
-                }
-
-                //storedProcedureOrderGridView.
-                counter++;
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            StoredProcedureOrder spo = new StoredProcedureOrder("DTAMM", "user_system", "test procedure", true, new ArrayList(2), new ArrayList(2), "Create", false, null, "ID", "USERS");
-            List<StoredProcedureOrder> spoList = new List<StoredProcedureOrder>();
-            spoList.Add(spo);
-            storedProcedureOrderGridView.DataSource = GetDataTableFromObjects(spoList);
+
+            testSpo.setFieldValue("dbase", true);
+            Console.WriteLine(testSpo.dbase);
+            
         }
 
         private void populateTableList(System.Data.DataTable table)
@@ -113,35 +95,65 @@ namespace sqlTools
             DataTable schema = DAL.getTableMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
             populateTableList(schema);
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        public static List<DataRow> GetDataTableFromObjects(List<StoredProcedureOrder> spo)
         {
-
-        }
-        public static DataTable GetDataTableFromObjects(List<StoredProcedureOrder> spo)
-        {
-            DataTable dt = new DataTable();
-            dt.TableName = "StoredProcedureOrder";
+            List<DataRow> dr = new List<DataRow>();
             for (int i = 0; i < spo.Count; i++)
             {
-                foreach (FieldInfo property in spo[i].GetType().GetFields())
-                {
-                    dt.Columns.Add(new DataColumn(property.Name, property.FieldType));
-                }
-                DataRow newRow = dt.NewRow();
+                DataRow newRow = _orderTable.NewRow();
                 foreach (FieldInfo property in spo[i].GetType().GetFields())
                 {
                     newRow[property.Name] = spo[i].GetType().GetField(property.Name).GetValue(spo[i]);
                 }
-                dt.Rows.Add(newRow);
+                dr.Add(newRow);
             }
-            return dt;
+            return dr;
         }
 
         private void tableList_SelectedIndexChanged(object sender, EventArgs e)
         {
             storedProcedureOrderGridView.Enabled = true;
         }
+
+        private List<StoredProcedureOrder> datgridViewToSPO(List<DataGridViewRow> gridViewRowList)
+        {
+
+            List<StoredProcedureOrder> spoList = new List<StoredProcedureOrder>();
+
+            foreach (DataGridViewRow gridViewRow in gridViewRowList)
+            {
+                
+                
+
+                foreach (DataGridViewCell cell in gridViewRow.Cells)
+                {
+                    String cellColumnHeader = cell.DataGridView.Columns[cell.ColumnIndex].Name;
+                    if (!cellColumnHeader.Contains("Button"))
+                    {
+                        switch (testSpo.getFieldType(cellColumnHeader))
+                        {
+                            case "Stystem.String":
+                                //CaseZero();
+                                break;
+                            case "System.Collections.Generic.List`1[System.String]":
+                                //CaseOne();
+                                break;
+                            case "System.Boolean":
+                                //CaseTwo();
+                                break;
+                            default:
+                                //CaseOthers();
+                                break;
+                        }
+                        //spo.GetType().GetProperty(cellColumnHeader).SetValue();
+                    }
+                }
+
+            }
+            
+            return null;
+
+        } 
 
 
     }

@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace sqlTools
 {
@@ -13,15 +15,15 @@ namespace sqlTools
         public String schema;
         public String name;
         public bool newProcedure;
-        public ArrayList parameters;    
-        public ArrayList fields;
+        public List<String> parameters;
+        public List<String> fields;
         public String type;
         public bool doBy;
         public String doByParameter;
         public String output;
         public String tableName;
 
-        public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, ArrayList parametersIn, ArrayList fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String outputIn, String tableNameIn)
+        public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, List<String> parametersIn, List<String> fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String outputIn, String tableNameIn)
         {
             this.dbase = dbaseIn;
             this.schema = schemaIn;
@@ -66,15 +68,15 @@ namespace sqlTools
         {
             this.newProcedure = newProcedureIn;
         }
-        public void setParameters(ArrayList parametersIn)
+        public void setParameters(List<String> parametersIn)
         {
             this.parameters = parametersIn;
         }
-        public void setFields(ArrayList fieldsIn)
+        public void setFields(List<String> fieldsIn)
         {
             this.fields = fieldsIn;
         }
-        public void setType(String typeIn)
+        public void setSpoType(String typeIn)
         {
             this.type = typeIn;
         }
@@ -111,15 +113,15 @@ namespace sqlTools
         {
             return this.newProcedure;
         }
-        public ArrayList getParameters()
+        public List<String> getParameters()
         {
             return this.parameters;
         }
-        public ArrayList getFields()
+        public List<string> getFields()
         {
             return this.fields;
         }
-        public String getType()
+        public String getSpoType()
         {
             return this.type;
         }
@@ -138,6 +140,25 @@ namespace sqlTools
         public String getTableName()
         {
             return this.tableName;
+        }
+
+        public String getFieldType(String s)
+        {
+
+            return this.GetType().GetField(s).GetValue(this).GetType().ToString();
+
+        }
+
+        public void setFieldValue(String fieldName, Object value)
+        {
+            try
+            {
+                this.GetType().GetField(fieldName).SetValue(this, value);
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine("\nValue could not be set because " + value.GetType().ToString() + " does not match the target fields type of " + this.GetType().GetField(fieldName).FieldType.ToString() + ".");
+            }
         }
     }
 }
