@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace sqlTools
@@ -27,14 +28,12 @@ namespace sqlTools
         public Form1()
         {
             InitializeComponent();
+            populateServerList(DAL.getServerList());
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<DataGridViewRow> dgvrList = new List<DataGridViewRow>();
-            dgvrList.Add(storedProcedureOrderGridView.Rows[0]);
-            List<StoredProcedureOrder> spoList = datgridViewToSPO(dgvrList);
-            Console.WriteLine(spoList[0].dbase);
+            DAL.getColumnMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text), tableList.Text);
 
         }
 
@@ -45,13 +44,26 @@ namespace sqlTools
                     tableList.Items.Add(row[table.Columns.IndexOf("TABLE_NAME")]);
             }
         }
+        private void populateSchemaList(System.Data.DataTable table)
+        {
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                if (!schemaList.Items.Contains(row[table.Columns.IndexOf("TABLE_SCHEMA")]))
+                {
+                    schemaList.Items.Add(row[table.Columns.IndexOf("TABLE_SCHEMA")]);
+                }
+            }
+        }
         private void populateServerList(System.Data.DataTable table)
         {
             
             foreach (System.Data.DataRow row in table.Rows)
             {   
                 serverList.Update();
-                if (!serverList.Items.Contains(row[table.Columns.IndexOf("ServerName")])) { }
+
+                string s = serverList.Items.ToString();
+                string t = row[table.Columns.IndexOf("ServerName")].ToString();
+                if (s.ToString().Contains(t.ToString())) { }
                 {
                     serverList.Items.Add(row[table.Columns.IndexOf("ServerName")]);
                 }    
@@ -92,9 +104,9 @@ namespace sqlTools
 
         private void dbaseList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tableList.Items.Clear();
-            DataTable schema = DAL.getTableMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
-            populateTableList(schema);
+            schemaList.Items.Clear();
+            DataTable schema = DAL.getSchemaMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
+            populateSchemaList(schema);
         }
         public static List<DataRow> GetDataTableFromObjects(List<StoredProcedureOrder> spo)
         {
@@ -114,6 +126,18 @@ namespace sqlTools
         private void tableList_SelectedIndexChanged(object sender, EventArgs e)
         {
             storedProcedureOrderGridView.Enabled = true;
+        }
+        private void storedProcedureOrderGridView_cellClick(object sender, EventArgs e)
+        {
+            DataGridViewCellEventArgs argument = (DataGridViewCellEventArgs) e;
+            if (storedProcedureOrderGridView.Columns[argument.ColumnIndex].GetType() ==
+                typeof (DataGridViewButtonColumn))
+            {
+                Console.WriteLine("Cell button clicked");
+                SelectionWindow sw = new SelectionWindow(argument.ColumnIndex, argument.RowIndex, sender);
+//                sw.Visible = true;
+            }
+            
         }
 
         private List<StoredProcedureOrder> datgridViewToSPO(List<DataGridViewRow> gridViewRowList)
@@ -141,8 +165,37 @@ namespace sqlTools
             
             return spoList;
 
-        } 
+        }
 
+        private void addRowButton_Click(object sender, EventArgs e)
+        {
+            int rowIndex = storedProcedureOrderGridView.Rows.Add();
+            storedProcedureOrderGridView.Rows[rowIndex].Cells[0].Value = dbaseList.Text;  // Pull DB from DB list
+            storedProcedureOrderGridView.Rows[rowIndex].Cells[1].Value = schemaList.Text; // Pull schema from schema list
+            storedProcedureOrderGridView.Rows[rowIndex].Cells[2] = populateTableCB(); // Populate table cb from schema selection
 
+        }
+
+        private DataGridViewComboBoxCell populateTableCB()
+        {
+            DataGridViewComboBoxCell CBCell = new DataGridViewComboBoxCell();
+            DataTable schema = DAL.getTableMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
+            foreach (System.Data.DataRow row in schema.Rows)
+            {
+                object o = schemaList.Text;
+                object t = row[schema.Columns.IndexOf("TABLE_SCHEMA")];
+                if (t.ToString().Equals(o.ToString()))
+                {
+                    CBCell.Items.Add(row[schema.Columns.IndexOf("TABLE_NAME")]);
+
+                }
+            }
+            return CBCell;
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

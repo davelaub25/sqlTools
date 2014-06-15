@@ -11,17 +11,17 @@ namespace sqlTools
 {
     public class StoredProcedureOrder
     {
-        public String dbase;
-        public String schema;
-        public String name;
-        public bool newProcedure;
-        public List<String> parameters;
-        public List<String> fields;
-        public String type;
-        public bool doBy;
-        public String doByParameter;
-        public String output;
-        public String tableName;
+        private String _dbase;
+        private String _schema;
+        private String _name;
+        private bool _newProcedure;
+        private List<String> _parameters;
+        private List<String> _fields;
+        private String _type;
+        private bool _doBy;
+        private String _doByParameter;
+        private String _output;
+        private String _tableName;
 
         public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, List<String> parametersIn, List<String> fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String outputIn, String tableNameIn)
         {
@@ -52,96 +52,159 @@ namespace sqlTools
             this.tableName = null;
         }
         /////////////////////Sets///////////////////////////////////////////////
-        public void setDbase(String dbaseIn)
-        {
-            this.dbase = dbaseIn;
-        }
-        public void setSchema(String schemaIn)
-        {
-            this.schema = schemaIn;
-        }
-        public void setName(String nameIn)
-        {
-            this.name = nameIn;
-        }
-        public void setNewProcedure(bool newProcedureIn)
-        {
-            this.newProcedure = newProcedureIn;
-        }
-        public void setParameters(List<String> parametersIn)
-        {
-            this.parameters = parametersIn;
-        }
-        public void setFields(List<String> fieldsIn)
-        {
-            this.fields = fieldsIn;
-        }
-        public void setSpoType(String typeIn)
-        {
-            this.type = typeIn;
-        }
-        public void setDoBy(bool doByIn)
-        {
-            this.doBy = doByIn;
-        }
-        public void setDoByParameter(String doByParameterIn)
-        {
-            this.doByParameter = doByParameterIn;
-        }
-        public void setOutput(String outputIn)
-        {
-            this.output = outputIn;
-        }
-        public void setTableName(String tableNameIn)
-        {
-            this.tableName = tableNameIn;
-        }
-        ///////////////////Gets//////////////////////////////////////////////
-        public String getDbase()
-        {
-            return this.dbase;
-        }
-        public String getSchema()
-        {
-            return this.schema;
-        }
-        public String getName()
-        {
-            return this.name;
-        }
-        public bool getNewProcedure()
-        {
-            return this.newProcedure;
-        }
-        public List<String> getParameters()
-        {
-            return this.parameters;
-        }
-        public List<string> getFields()
-        {
-            return this.fields;
-        }
-        public String getSpoType()
-        {
-            return this.type;
-        }
-        public bool getDoBy()
-        {
-            return this.doBy;
-        }
-        public String getDoByParameter()
-        {
-            return this.doByParameter;
-        }
-        public String getOutput()
-        {
-            return this.output;
-        }
-        public String getTableName()
-        {
-            return this.tableName;
-        }
+        public String dbase{
 
+            get
+            {
+                return _dbase;
+                
+            }
+            set
+            {
+                _dbase = value;
+                
+            }
+        }
+        public String schema
+        {
+
+            get
+            {
+                return _schema;
+
+            }
+            set
+            {
+                _schema = value;
+
+            }
+        }
+        public String name
+        {
+
+            get
+            {
+                return _name;
+
+            }
+            set
+            {
+                _name = value;
+
+            }
+        }
+        public bool newProcedure
+        {
+
+            get
+            {
+                return _newProcedure;
+
+            }
+            set
+            {
+                _newProcedure = value;
+
+            }
+        }
+        public List<string> parameters
+        {
+
+            get
+            {
+                return _parameters;
+
+            }
+            set
+            {
+                _parameters = value;
+
+            }
+        }
+        public List<string> fields
+        {
+
+            get
+            {
+                return _fields;
+
+            }
+            set
+            {
+                _fields = value;
+
+            }
+        }
+        public String type
+        {
+
+            get
+            {
+                return _type;
+
+            }
+            set
+            {
+                _type = value;
+
+            }
+        }
+        public bool doBy
+        {
+
+            get
+            {
+                return _doBy;
+
+            }
+            set
+            {
+                _doBy = value;
+
+            }
+        }
+        public string doByParameter
+        {
+
+            get
+            {
+                return _doByParameter;
+
+            }
+            set
+            {
+                _doByParameter = value;
+
+            }
+        }
+        public String output
+        {
+
+            get
+            {
+                return _output;
+
+            }
+            set
+            {
+                _output = value;
+
+            }
+        }
+        public String tableName
+        {
+
+            get
+            {
+                return _tableName;
+
+            }
+            set
+            {
+                _tableName = value;
+
+            }
+        }
         public String getFieldType(String s)
         {
 
@@ -153,7 +216,7 @@ namespace sqlTools
         {
             try
             {
-                this.GetType().GetField(fieldName).SetValue(this, value);
+                this.GetType().GetProperty(fieldName).SetValue(this, value);
             }
             catch(ArgumentException e)
             {

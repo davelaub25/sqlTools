@@ -9,7 +9,29 @@ namespace sqlTools
 {
     public class DAL
     {
+        public static DataTable getColumnMetaData(String connString, String tableName)
+        {
+            var con = new SqlConnection(connString);
+            Console.WriteLine("Attempting to connect to database");
+            con.Open();
+            Console.WriteLine("Connected");
+            var schema = con.GetSchema("Columns");
+            DisplayData(schema, tableName);
+            con.Close();
+            return schema;
+        }
         public static DataTable getTableMetaData(String connString)
+        {
+            var con = new SqlConnection(connString);
+            Console.WriteLine("Attempting to connect to database");
+            con.Open();
+            Console.WriteLine("Connected");
+            var schema = con.GetSchema("Tables");
+            DisplayData(schema);
+            con.Close();
+            return schema;
+        }
+        public static DataTable getSchemaMetaData(String connString)
         {
             var con = new SqlConnection(connString);
             Console.WriteLine("Attempting to connect to database");
@@ -44,6 +66,20 @@ namespace sqlTools
                     Console.WriteLine("{0} = {1}", col.ColumnName, row[col]);
                 }
                 Console.WriteLine("============================");
+            }
+        }
+        private static void DisplayData(System.Data.DataTable table, String tableName)
+        {
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                if (row[2].ToString().Equals(tableName))
+                {
+                    foreach (System.Data.DataColumn col in table.Columns)
+                    {
+                        Console.WriteLine("{0} = {1}", col.ColumnName, row[col]);
+                    }
+                    Console.WriteLine("============================");
+                }
             }
         }
         public static String buildConnString(String username, String pass, String serverName)

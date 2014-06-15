@@ -37,8 +37,8 @@ namespace sqlTools
         /// 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button1 = new System.Windows.Forms.Button();
             this.tableList = new System.Windows.Forms.ListBox();
             this.userText = new System.Windows.Forms.TextBox();
@@ -52,11 +52,13 @@ namespace sqlTools
             this.dbaseListLabel = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.storedProcedureOrderGridView = new System.Windows.Forms.DataGridView();
+            this.addRowButton = new System.Windows.Forms.Button();
+            this.schema = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dbase = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.schema = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.tableName = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.newProcedure = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parameters = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.parameterButton = new System.Windows.Forms.DataGridViewButtonColumn();
             this.fields = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fieldsButton = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -65,7 +67,7 @@ namespace sqlTools
             this.doByParameter = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.output = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.outputButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.tableName = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.schemaList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.storedProcedureOrderGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +84,7 @@ namespace sqlTools
             // tableList
             // 
             this.tableList.FormattingEnabled = true;
-            this.tableList.Location = new System.Drawing.Point(511, 31);
+            this.tableList.Location = new System.Drawing.Point(711, 31);
             this.tableList.Name = "tableList";
             this.tableList.Size = new System.Drawing.Size(137, 95);
             this.tableList.TabIndex = 1;
@@ -123,7 +125,7 @@ namespace sqlTools
             this.passwordText.Name = "passwordText";
             this.passwordText.Size = new System.Drawing.Size(198, 20);
             this.passwordText.TabIndex = 5;
-            this.passwordText.Text = "Password";
+            this.passwordText.Text = "pooper1";
             this.passwordText.UseSystemPasswordChar = true;
             // 
             // dbaseList
@@ -180,21 +182,23 @@ namespace sqlTools
             // 
             // storedProcedureOrderGridView
             // 
+            this.storedProcedureOrderGridView.AllowUserToAddRows = false;
             this.storedProcedureOrderGridView.AllowUserToOrderColumns = true;
             this.storedProcedureOrderGridView.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
             this.storedProcedureOrderGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.storedProcedureOrderGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.storedProcedureOrderGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.storedProcedureOrderGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.storedProcedureOrderGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dbase,
             this.schema,
+            this.dbase,
+            this.tableName,
             this.name,
             this.newProcedure,
             this.parameters,
@@ -205,37 +209,54 @@ namespace sqlTools
             this.doBy,
             this.doByParameter,
             this.output,
-            this.outputButtonColumn,
-            this.tableName});
+            this.outputButtonColumn});
             this.storedProcedureOrderGridView.Location = new System.Drawing.Point(15, 190);
             this.storedProcedureOrderGridView.Name = "storedProcedureOrderGridView";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlDark;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.storedProcedureOrderGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ControlDark;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.storedProcedureOrderGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.storedProcedureOrderGridView.Size = new System.Drawing.Size(1179, 299);
             this.storedProcedureOrderGridView.TabIndex = 12;
+            this.storedProcedureOrderGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.storedProcedureOrderGridView_cellClick);
+            // 
+            // addRowButton
+            // 
+            this.addRowButton.Location = new System.Drawing.Point(1118, 496);
+            this.addRowButton.Name = "addRowButton";
+            this.addRowButton.Size = new System.Drawing.Size(75, 23);
+            this.addRowButton.TabIndex = 13;
+            this.addRowButton.Text = "Add";
+            this.addRowButton.UseVisualStyleBackColor = true;
+            this.addRowButton.Click += new System.EventHandler(this.addRowButton_Click);
+            // 
+            // schema
+            // 
+            this.schema.HeaderText = "Schema";
+            this.schema.Name = "schema";
+            this.schema.ReadOnly = true;
+            this.schema.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.schema.Width = 110;
             // 
             // dbase
             // 
             this.dbase.HeaderText = "Database";
             this.dbase.Name = "dbase";
+            this.dbase.ReadOnly = true;
             this.dbase.Width = 110;
             // 
-            // schema
+            // tableName
             // 
-            this.schema.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.schema.HeaderText = "Schema";
-            this.schema.Items.AddRange(new object[] {
+            this.tableName.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.tableName.HeaderText = "Table Name";
+            this.tableName.Items.AddRange(new object[] {
             "Test"});
-            this.schema.Name = "schema";
-            this.schema.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.schema.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.schema.Width = 110;
+            this.tableName.Name = "tableName";
+            this.tableName.Width = 110;
             // 
             // name
             // 
@@ -251,8 +272,12 @@ namespace sqlTools
             // 
             // parameters
             // 
+            this.parameters.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.parameters.HeaderText = "Parameters";
             this.parameters.Name = "parameters";
+            this.parameters.ReadOnly = true;
+            this.parameters.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.parameters.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.parameters.Width = 110;
             // 
             // parameterButton
@@ -312,20 +337,22 @@ namespace sqlTools
             this.outputButtonColumn.Name = "outputButtonColumn";
             this.outputButtonColumn.Width = 22;
             // 
-            // tableName
+            // schemaList
             // 
-            this.tableName.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.tableName.HeaderText = "Table Name";
-            this.tableName.Items.AddRange(new object[] {
-            "Test"});
-            this.tableName.Name = "tableName";
-            this.tableName.Width = 110;
+            this.schemaList.FormattingEnabled = true;
+            this.schemaList.Location = new System.Drawing.Point(512, 31);
+            this.schemaList.Name = "schemaList";
+            this.schemaList.Size = new System.Drawing.Size(120, 95);
+            this.schemaList.TabIndex = 14;
+            this.schemaList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1207, 595);
+            this.Controls.Add(this.schemaList);
+            this.Controls.Add(this.addRowButton);
             this.Controls.Add(this.storedProcedureOrderGridView);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.dbaseListLabel);
@@ -364,11 +391,13 @@ namespace sqlTools
         private Table spTable;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.DataGridView storedProcedureOrderGridView;
+        private System.Windows.Forms.Button addRowButton;
+        private DataGridViewTextBoxColumn schema;
         private DataGridViewTextBoxColumn dbase;
-        private DataGridViewComboBoxColumn schema;
+        private DataGridViewComboBoxColumn tableName;
         private DataGridViewTextBoxColumn name;
         private DataGridViewCheckBoxColumn newProcedure;
-        private DataGridViewTextBoxColumn parameters;
+        private DataGridViewComboBoxColumn parameters;
         private DataGridViewButtonColumn parameterButton;
         private DataGridViewTextBoxColumn fields;
         private DataGridViewButtonColumn fieldsButton;
@@ -377,7 +406,7 @@ namespace sqlTools
         private DataGridViewComboBoxColumn doByParameter;
         private DataGridViewTextBoxColumn output;
         private DataGridViewButtonColumn outputButtonColumn;
-        private DataGridViewComboBoxColumn tableName;
+        private System.Windows.Forms.ListBox schemaList;
     }
 }
 
