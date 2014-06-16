@@ -19,12 +19,11 @@ namespace sqlTools
         private List<String> _fields;
         private String _type;
         private bool _doBy;
-        private String _doByParameter;
-        private String _doByField;
+        private List<String> _doByInfo;
         private List<String> _output;
         private String _tableName;
 
-        public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, List<String> parametersIn, List<String> fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String doByFieldin, List<String> outputIn, String tableNameIn)
+        public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, List<String> parametersIn, List<String> fieldsIn, String typeIn, bool doByIn, List<string> doByInfoIn, List<String> outputIn, String tableNameIn)
         {
             this.dbase = dbaseIn;
             this.schema = schemaIn;
@@ -34,8 +33,7 @@ namespace sqlTools
             this.fields = fieldsIn;
             this.type = typeIn;
             this.doBy = doByIn;
-            this.doByParameter = doByParameterIn;
-            this.doByField = doByFieldin;
+            this.doByInfo = doByInfoIn;
             this.output = outputIn;
             this.tableName = tableNameIn;
         }
@@ -49,8 +47,7 @@ namespace sqlTools
             this.fields = null;
             this.type = null;
             this.doBy = false;
-            this.doByParameter = null;
-            this.doByField = null;
+            this.doByInfo = null;
             this.output = null;
             this.tableName = null;
         }
@@ -124,17 +121,17 @@ namespace sqlTools
 
             }
         }
-        public string doByField
+        public List<string> doByInfo
         {
 
             get
             {
-                return _doByField;
+                return _doByInfo;
 
             }
             set
             {
-                _doByField = value;
+                _doByInfo = value;
 
             }
         }
@@ -177,20 +174,6 @@ namespace sqlTools
             set
             {
                 _doBy = value;
-
-            }
-        }
-        public string doByParameter
-        {
-
-            get
-            {
-                return _doByParameter;
-
-            }
-            set
-            {
-                _doByParameter = value;
 
             }
         }

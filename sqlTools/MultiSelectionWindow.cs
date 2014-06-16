@@ -10,91 +10,77 @@ using System.Windows.Forms;
 
 namespace sqlTools
 {
-    public partial class SelectionWindow : Form
+    public partial class MultiSelectionWindow : Form
     {
-        private DataTable dataTable;
-        private string filterString;
-        private string selectedTable;
-        private string returnType;
-        private DataGridView requestingGrid;
-        private int gridRow;
-        private int gridCol;
+        private DataTable _requestingTable;
+        private string _tableName;
+        private string _schema;
 
-        public SelectionWindow(DataTable dt, string filter, string currentTable, string dataType, DataGridView requestor, int row, int col)
+        public MultiSelectionWindow(DataTable dt, string schema, string tableName)
         {
             InitializeComponent();
-            dataTable = dt;
-            filterString = filter;
-            selectedTable = currentTable;
-            returnType = dataType;
-            requestingGrid = requestor;
-            gridRow = row;
-            gridCol = col;
-            foreach (DataRow dataRow in dataTable.Rows)
+            _requestingTable = dt;
+            _tableName = tableName;
+            _schema = schema;
+
+            Console.WriteLine("Window Initialized");
+            DataGridViewComboBoxCell cb1 = new DataGridViewComboBoxCell();
+            DataGridViewComboBoxCell cb2 = new DataGridViewComboBoxCell();
+            foreach (DataRow dataRow in dt.Rows)
             {
-                if (dataRow[1].ToString().Equals(filterString) && dataRow[2].ToString().Equals(selectedTable))
+                if (dataRow[1].ToString().Equals(schema) && dataRow[2].ToString().Equals(tableName))
                 {
-                    if (gridCol == 6)
+                    String t = dataRow[dt.Columns.IndexOf("COLUMN_NAME")].ToString();
+                    String[] s = t.Split('_');
+                    if (s[0].ToLower().Equals(tableName.ToLower())) //Check if field name is prefixed with table name
                     {
-                        string t = dataRow[dataTable.Columns.IndexOf(returnType)].ToString();
-                        string[] s = t.Split('_');
-                        string tableName = requestingGrid.Rows[gridRow].Cells[2].Value.ToString().ToLower();
-                        if (s[0].ToLower().Equals(tableName)) //Check if field name is prefixed with table name
-                        {
-                            selectionListBox.Items.Add(s[1] + " " +
-                                                       dataRow[dataTable.Columns.IndexOf("DATA_TYPE")].ToString()
-                                                       + "(" +
-                                                       dataRow[dataTable.Columns.IndexOf("CHARACTER_MAXIMUM_LENGTH")]
-                                                           .ToString() + ") ,");
-                                //If it is remove table name for parameter
-                        }
-                        else
-                        {
-                            selectionListBox.Items.Add(dataRow[dataTable.Columns.IndexOf(returnType)].ToString() + " " +
-                                                   dataRow[dataTable.Columns.IndexOf("DATA_TYPE")].ToString()
-                                                   + "(" +
-                                                   dataRow[dataTable.Columns.IndexOf("CHARACTER_MAXIMUM_LENGTH")]
-                                                       .ToString() + ") ,");    
-                        }
-                        
+                        string newSelection = "@" + s[1];
+                        cb1.Items.Add(newSelection);                                                                   //If it is remove table name for parameter
                     }
                     else
                     {
-                        selectionListBox.Items.Add(dataRow[dataTable.Columns.IndexOf(returnType)] + ",");    
+                        cb1.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);
                     }
-                    
+                    cb2.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);
                 }
             }
-
+            multiSelectionGridView.Rows.Add(new DataGridViewRow());
+            multiSelectionGridView.Rows[0].Cells[0] = cb1;
+            multiSelectionGridView.Rows[0].Cells[1].Value = "=";
+            multiSelectionGridView.Rows[0].Cells[2] = cb2;
         }
-        private void acceptButton_Click(object sender, EventArgs e)
+
+        private void MultiSelectionWindow_Load(object sender, EventArgs e)
         {
 
-            DataGridViewComboBoxCell comboBox = new DataGridViewComboBoxCell();
+        }
 
-            foreach (string selection in selectionListBox.CheckedItems)
+        private void addRowButton_Click(object sender, EventArgs e)
+        {
+            int newRowIndex = multiSelectionGridView.Rows.Add();
+            DataGridViewComboBoxCell cb1 = new DataGridViewComboBoxCell();
+            DataGridViewComboBoxCell cb2 = new DataGridViewComboBoxCell();
+            foreach (DataRow dataRow in _requestingTable.Rows)
             {
-                if (gridCol.Equals(6))
+                if (dataRow[1].ToString().Equals(_schema) && dataRow[2].ToString().Equals(_tableName))
                 {
-                    string[] s = selection.Split('_');
-                    if (s[0].ToLower().Equals(requestingGrid.Rows[gridRow].Cells[2].Value.ToString().ToLower())) //Check if field name is prefixed with table name
+                    String t = dataRow[_requestingTable.Columns.IndexOf("COLUMN_NAME")].ToString();
+                    String[] s = t.Split('_');
+                    if (s[0].ToLower().Equals(_tableName.ToLower())) //Check if field name is prefixed with table name
                     {
-                        string newSelection = s[1];
-                        comboBox.Items.Add("@" + newSelection);                                            //If it is remove table name for parameter
+                        string newSelection = "@" + s[1];
+                        cb1.Items.Add(newSelection);                                                                   //If it is remove table name for parameter
                     }
                     else
                     {
-                        comboBox.Items.Add("@" + selection);                                                //Otherwise add an @ sign and leave it be
+                        cb1.Items.Add(dataRow[_requestingTable.Columns.IndexOf("COLUMN_NAME")]);
                     }
+                    cb2.Items.Add(dataRow[_requestingTable.Columns.IndexOf("COLUMN_NAME")]);
                 }
-                else
-                {
-                    comboBox.Items.Add(selection);
-                }
-                
             }
-            Form1.storedProcedureOrderGridView.Rows[gridRow].Cells[gridCol-1] = comboBox;
-            this.Close();
+            multiSelectionGridView.Rows[newRowIndex].Cells[0] = cb1;
+            multiSelectionGridView.Rows[newRowIndex].Cells[1].Value = "=";
+            multiSelectionGridView.Rows[newRowIndex].Cells[2] = cb2;
         }
     }
 }

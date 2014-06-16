@@ -17,6 +17,22 @@ namespace sqlTools
     public partial class Form1 : Form
     {
         bool userFlag = false;
+        private const int dbaseColumnIndex = 0;
+        private const int schemaColumnIndex = 1;
+        private const int tableNameColumnIndex = 2;
+        private const int nameColumnIndex = 3;
+        private const int newProcedureColumnIndex = 4;
+        private const int parametersColumnIndex = 5;
+        private const int parameterButtonIndex = 6;
+        private const int fieldsColumnIndex = 7;
+        private const int fieldButtonIndex = 8;
+        private const int typeColumnIndex = 9;
+        private const int doByColumnIndex = 10;
+        private const int doByInfoColumnIndex = 11;
+        private const int doByButtonIndex = 12;
+        private const int outputColumnIndex = 13;
+        private const int outputButtonIndex = 14;
+
 
         public Form1()
         {
@@ -141,15 +157,19 @@ namespace sqlTools
             if (storedProcedureOrderGridView.Columns[argument.ColumnIndex].GetType() ==
                 typeof (DataGridViewButtonColumn))
             {
-                if (argument.ColumnIndex == 6)
+                if (argument.ColumnIndex == parameterButtonIndex)
                 {
                     fillParameterCB(sendingGridView, argument);
                 }
-                if (argument.ColumnIndex == 8)
+                if (argument.ColumnIndex == fieldButtonIndex)
                 {
                     fillParameterCB(sendingGridView, argument);
                 }
-                if (argument.ColumnIndex == 13)
+                if (argument.ColumnIndex == doByButtonIndex)
+                {
+                    showMultiSelectWindow(sendingGridView, argument);
+                }
+                if (argument.ColumnIndex == outputButtonIndex)
                 {
                     fillParameterCB(sendingGridView, argument);
                 }
@@ -164,34 +184,23 @@ namespace sqlTools
             DataGridViewCellEventArgs argument = (DataGridViewCellEventArgs)e;
             try
             {
-                if (argument.ColumnIndex == 2 &&
+                if (argument.ColumnIndex == tableNameColumnIndex &&
                     !sendingGridView.Rows[argument.RowIndex].Cells[argument.ColumnIndex].Value.Equals(null))
                 {
                     string connString = DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text);
                     DataTable dt = DAL.getColumnMetaData(connString, schemaList.Text);
                     DataGridViewComboBoxCell cb1 = new DataGridViewComboBoxCell();
-                    DataGridViewComboBoxCell cb2 = new DataGridViewComboBoxCell();
                     foreach (DataRow dataRow in dt.Rows)
                     {
-                        string tableName = sendingGridView.Rows[argument.RowIndex].Cells[2].Value.ToString();
-                        if (dataRow[1].ToString().Equals(schemaList.Text) && dataRow[2].ToString().Equals(tableName))
+                        string tableName = sendingGridView.Rows[argument.RowIndex].Cells[tableNameColumnIndex].Value.ToString();
+                        if (dataRow[1].ToString().Equals(schemaList.Text) &&
+                            dataRow[tableNameColumnIndex].ToString().Equals(tableName))
                         {
-                            String t = dataRow[dt.Columns.IndexOf("COLUMN_NAME")].ToString();
-                            String[] s = t.Split('_');
-                            if (s[0].ToLower().Equals(sendingGridView.Rows[argument.RowIndex].Cells[2].Value.ToString().ToLower())) //Check if field name is prefixed with table name
-                            {
-                                string newSelection = "@" + s[1];
-                                cb1.Items.Add(newSelection);                                                                   //If it is remove table name for parameter
-                            }
-                            else
-                            {
-                                cb1.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);    
-                            }
-                            cb2.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);
+                            cb1.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);
                         }
+
                     }
-                    storedProcedureOrderGridView.Rows[argument.RowIndex].Cells[11] = cb1;
-                    storedProcedureOrderGridView.Rows[argument.RowIndex].Cells[12] = cb2;
+                    storedProcedureOrderGridView.Rows[argument.RowIndex].Cells[doByInfoColumnIndex] = cb1;
                 }
             }
             catch (NullReferenceException)
@@ -214,7 +223,7 @@ namespace sqlTools
                     String cellColumnHeader = cell.DataGridView.Columns[cell.ColumnIndex].Name;
                     if (!cellColumnHeader.Contains("Button"))
                     {
-                        if (cell.ColumnIndex == 5 || cell.ColumnIndex == 7 || cell.ColumnIndex == 12)  //These cells use a combo box to hold multiple selected values
+                        if (cell.ColumnIndex == parametersColumnIndex || cell.ColumnIndex == fieldsColumnIndex || cell.ColumnIndex == doByInfoColumnIndex || cell.ColumnIndex == outputColumnIndex)  //These cells use a combo box to hold multiple selected values
                         {                                                                              //Because of that they need to be pulled into a list before passed.
                             List<string> valueList = new List<string>();
                             DataGridViewComboBoxCell comboBoxCell = (DataGridViewComboBoxCell)cell;
@@ -278,6 +287,23 @@ namespace sqlTools
                 string selectedTable = gridView.Rows[argument.RowIndex].Cells[2].Value.ToString();
                 SelectionWindow sw = new SelectionWindow(dt, schemaList.Text, selectedTable, "COLUMN_NAME", gridView, argument.RowIndex, argument.ColumnIndex);
                 sw.Visible = true;
+            }
+            catch (NullReferenceException n)
+            {
+                MessageBox.Show("Please select a table first!", "SQL Tools", MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Asterisk);
+            }
+        }
+        private void showMultiSelectWindow(DataGridView gridView, DataGridViewCellEventArgs argument)
+        {
+            Console.WriteLine("Preparing Multi Select Window");
+            string connString = DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text);
+            DataTable dt = DAL.getColumnMetaData(connString, schemaList.Text);
+            try
+            {
+                string selectedTable = gridView.Rows[argument.RowIndex].Cells[2].Value.ToString();
+                MultiSelectionWindow msw = new MultiSelectionWindow(dt, schemaList.Text, selectedTable);
+                msw.Visible = true;
             }
             catch (NullReferenceException n)
             {

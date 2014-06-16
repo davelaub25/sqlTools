@@ -64,8 +64,8 @@ namespace sqlTools
             this.fieldsButton = new System.Windows.Forms.DataGridViewButtonColumn();
             this.type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.doBy = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.doByParameter = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.doByField = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.doByInfo = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.doByButton = new System.Windows.Forms.DataGridViewButtonColumn();
             this.output = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.outputButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.schemaList = new System.Windows.Forms.ListBox();
@@ -208,8 +208,8 @@ namespace sqlTools
             this.fieldsButton,
             this.type,
             this.doBy,
-            this.doByParameter,
-            this.doByField,
+            this.doByInfo,
+            this.doByButton,
             this.output,
             this.outputButtonColumn});
             Form1.storedProcedureOrderGridView.Location = new System.Drawing.Point(15, 190);
@@ -322,19 +322,21 @@ namespace sqlTools
             this.doBy.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.doBy.Width = 40;
             // 
-            // doByParameter
+            // doByInfo
             // 
-            this.doByParameter.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.doByParameter.HeaderText = "Do By Parameter";
-            this.doByParameter.Name = "doByParameter";
-            this.doByParameter.Width = 110;
+            this.doByInfo.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.doByInfo.HeaderText = "Do By Info";
+            this.doByInfo.Name = "doByInfo";
+            this.doByInfo.Width = 110;
             // 
-            // doByField
+            // doByButton
             // 
-            this.doByField.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.doByField.HeaderText = "Do By Field";
-            this.doByField.Name = "doByField";
-            this.doByField.Width = 110;
+            this.doByButton.HeaderText = "...";
+            this.doByButton.Name = "doByButton";
+            this.doByButton.Text = "...";
+            this.doByButton.UseColumnTextForButtonValue = true;
+            this.doByButton.Name = "doByButton";
+            this.doByButton.Width = 22;
             // 
             // output
             // 
@@ -414,10 +416,10 @@ namespace sqlTools
         private DataGridViewButtonColumn parameterButton;
         private DataGridViewTextBoxColumn fields;
         private DataGridViewButtonColumn fieldsButton;
+        private DataGridViewButtonColumn doByButton;
         private DataGridViewComboBoxColumn type;
         private DataGridViewCheckBoxColumn doBy;
-        private DataGridViewComboBoxColumn doByParameter;
-        private DataGridViewComboBoxColumn doByField;
+        private DataGridViewComboBoxColumn doByInfo;
         private DataGridViewTextBoxColumn output;
         private DataGridViewButtonColumn outputButtonColumn;
         private System.Windows.Forms.ListBox schemaList;

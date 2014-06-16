@@ -84,12 +84,12 @@ namespace sqlTools
         }
         public static String buildConnString(String username, String pass, String serverName)
         {
-            String conn = String.Format("user id={0}; password={1}; server={2}; Trusted_Connection=yes; connection timeout=30", username, pass, serverName);
+            String conn = String.Format("user id={0}; password={1}; server={2}; Trusted_Connection=yes; connection timeout=5", username, pass, serverName);
             return conn;
         }
         public static String buildConnString(String username, String pass, String serverName, String dbaseName)
         {
-            String conn = String.Format("user id={0}; password={1}; server={2}; Database={3}; Trusted_Connection=yes; connection timeout=30", username, pass, serverName, dbaseName);
+            String conn = String.Format("user id={0}; password={1}; server={2}; Database={3}; Trusted_Connection=yes; connection timeout=5", username, pass, serverName, dbaseName);
             return conn;
         }
     }
