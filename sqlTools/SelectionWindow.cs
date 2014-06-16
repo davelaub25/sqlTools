@@ -96,5 +96,47 @@ namespace sqlTools
             Form1.storedProcedureOrderGridView.Rows[gridRow].Cells[gridCol-1] = comboBox;
             this.Close();
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void maskButton_Click(object sender, EventArgs e){
+            String mask = maskTextBox.Text;
+            List<int> hashLocations = new List<int>();
+            for (int i = 0; i < mask.Length; i++)
+            {
+                if (mask[i].Equals('#'))
+                {
+                    hashLocations.Add(i);
+                }
+            }
+            List<string> newItems = new List<string>();
+            for (int i = 0; i < selectionListBox.Items.Count; i++){
+                string origItem = selectionListBox.Items[i].ToString();
+                string tempItem = "";
+                string tempHash = "";
+                for (int j = 0; j < selectionListBox.Items[i].ToString().Length; j++){
+                    if (hashLocations.Contains(j)){
+                        tempHash = tempHash + "#";
+                    }
+                    else{
+                        tempHash = tempHash + "*";
+                    }
+                }
+                for (int j = 0; j < tempHash.Length; j++){
+                    if (tempHash[j] == ('#')){}
+                    else{
+                        tempItem = tempItem + origItem[j];
+                    }
+                }
+                newItems.Add(tempItem);
+            }
+            selectionListBox.Items.Clear();
+            foreach (string replacement in newItems){
+                selectionListBox.Items.Add(replacement);
+            }
+        }
     }
 }

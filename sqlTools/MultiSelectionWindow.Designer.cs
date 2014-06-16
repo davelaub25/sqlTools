@@ -34,6 +34,9 @@
             this.fieldColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.addRowButton = new System.Windows.Forms.Button();
             this.acceptButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.maskLabel = new System.Windows.Forms.Label();
+            this.maskButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.multiSelectionGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,11 +93,39 @@
             this.acceptButton.Text = "Accept";
             this.acceptButton.UseVisualStyleBackColor = true;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(13, 426);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(217, 20);
+            this.textBox1.TabIndex = 3;
+            // 
+            // maskLabel
+            // 
+            this.maskLabel.AutoSize = true;
+            this.maskLabel.Location = new System.Drawing.Point(13, 412);
+            this.maskLabel.Name = "maskLabel";
+            this.maskLabel.Size = new System.Drawing.Size(84, 13);
+            this.maskLabel.TabIndex = 4;
+            this.maskLabel.Text = "Mask Parameter";
+            // 
+            // maskButton
+            // 
+            this.maskButton.Location = new System.Drawing.Point(154, 453);
+            this.maskButton.Name = "maskButton";
+            this.maskButton.Size = new System.Drawing.Size(75, 23);
+            this.maskButton.TabIndex = 5;
+            this.maskButton.Text = "Mask";
+            this.maskButton.UseVisualStyleBackColor = true;
+            // 
             // MultiSelectionWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(359, 494);
+            this.Controls.Add(this.maskButton);
+            this.Controls.Add(this.maskLabel);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.acceptButton);
             this.Controls.Add(this.addRowButton);
             this.Controls.Add(this.multiSelectionGridView);
@@ -103,6 +134,7 @@
             this.Load += new System.EventHandler(this.MultiSelectionWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.multiSelectionGridView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -114,5 +146,8 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn parameterColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn equalColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn fieldColumn;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label maskLabel;
+        private System.Windows.Forms.Button maskButton;
     }
 }
