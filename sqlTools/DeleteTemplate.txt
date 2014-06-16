@@ -1,0 +1,17 @@
+﻿USE [eShop]
+GO
+/****** Object:  StoredProcedure [eddm].[SelectionCarrierRouteDeleteById]    Script Date: 6/15/2014 7:33:58 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [eddm].[SelectionCarrierRouteDeleteById] 
+	@ID	int
+AS
+BEGIN
+
+	DELETE 
+		[eddm].[SelectionCarrierRoutes]
+	WHERE 
+		CRRT_ID = @ID;
+END

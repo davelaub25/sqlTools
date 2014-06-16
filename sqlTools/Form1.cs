@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -17,24 +18,44 @@ namespace sqlTools
     {
         bool userFlag = false;
 
-        static string conn = "user id=dlaub; password=pooper1; server=10.10.10.10; Trusted_Connection=yes; connection timeout=30"; //For test purposes only
-        
-        StoredProcedureOrder testSpo = new StoredProcedureOrder("Test DBase", "Test Schema", "Test Name", true, //For test purposes only
-            new List<string>(2), new List<string>(2), "Type in", true, "Test Parameter", 
-            "Test Output", "Test Table Name");
-
-        static DataTable _orderTable = new DataTable();
-
         public Form1()
         {
             InitializeComponent();
             populateServerList(DAL.getServerList());
         }
 
+        private void tableOfContents()
+        {
+            button1_Click(null,null);
+            populateTableList(null);
+            populateSchemaList(null);
+            populateServerList(null);
+            populateDbaseList(null);
+            userText_GotFocus(null, null);
+            userText_TextChanged(null, null);
+            refreshServerListButton_Click(null, null);
+            serverList_SelectedIndexChanged(null, null);
+            dbaseList_SelectedIndexChanged(null, null);
+            tableList_SelectedIndexChanged(null, null);
+            storedProcedureOrderGridView_cellClick(null, null);
+            storedProcedureOrderGridView_cellEdit(null, null);
+            datgridViewToSPO(null);
+            addRowButton_Click(null, null);
+            populateTableCB();
+            listBox1_SelectedIndexChanged(null, null);
+            fillParameterCB(null, null);
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            DAL.getColumnMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text), tableList.Text);
-
+            List<DataGridViewRow> rowlList = new List<DataGridViewRow>();
+            foreach (DataGridViewRow row in storedProcedureOrderGridView.Rows)
+            {
+                rowlList.Add(row);
+            }
+            List<StoredProcedureOrder> spoList = new List<StoredProcedureOrder>();
+            spoList.Equals(datgridViewToSPO(rowlList));
+            Console.WriteLine("Test");
         }
 
         private void populateTableList(System.Data.DataTable table)
@@ -108,20 +129,6 @@ namespace sqlTools
             DataTable schema = DAL.getSchemaMetaData(DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text));
             populateSchemaList(schema);
         }
-        public static List<DataRow> GetDataTableFromObjects(List<StoredProcedureOrder> spo)
-        {
-            List<DataRow> dr = new List<DataRow>();
-            for (int i = 0; i < spo.Count; i++)
-            {
-                DataRow newRow = _orderTable.NewRow();
-                foreach (FieldInfo property in spo[i].GetType().GetFields())
-                {
-                    newRow[property.Name] = spo[i].GetType().GetField(property.Name).GetValue(spo[i]);
-                }
-                dr.Add(newRow);
-            }
-            return dr;
-        }
 
         private void tableList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -129,18 +136,71 @@ namespace sqlTools
         }
         private void storedProcedureOrderGridView_cellClick(object sender, EventArgs e)
         {
+            DataGridView sendingGridView = (DataGridView)sender;
             DataGridViewCellEventArgs argument = (DataGridViewCellEventArgs) e;
             if (storedProcedureOrderGridView.Columns[argument.ColumnIndex].GetType() ==
                 typeof (DataGridViewButtonColumn))
             {
-                Console.WriteLine("Cell button clicked");
-                SelectionWindow sw = new SelectionWindow(argument.ColumnIndex, argument.RowIndex, sender);
-//                sw.Visible = true;
+                if (argument.ColumnIndex == 6)
+                {
+                    fillParameterCB(sendingGridView, argument);
+                }
+                if (argument.ColumnIndex == 8)
+                {
+                    fillParameterCB(sendingGridView, argument);
+                }
+                if (argument.ColumnIndex == 13)
+                {
+                    fillParameterCB(sendingGridView, argument);
+                }
             }
+            
             
         }
 
-        private List<StoredProcedureOrder> datgridViewToSPO(List<DataGridViewRow> gridViewRowList)
+        private void storedProcedureOrderGridView_cellEdit(object sender, EventArgs e)
+        {
+            DataGridView sendingGridView = (DataGridView)sender;
+            DataGridViewCellEventArgs argument = (DataGridViewCellEventArgs)e;
+            try
+            {
+                if (argument.ColumnIndex == 2 &&
+                    !sendingGridView.Rows[argument.RowIndex].Cells[argument.ColumnIndex].Value.Equals(null))
+                {
+                    string connString = DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text);
+                    DataTable dt = DAL.getColumnMetaData(connString, schemaList.Text);
+                    DataGridViewComboBoxCell cb1 = new DataGridViewComboBoxCell();
+                    DataGridViewComboBoxCell cb2 = new DataGridViewComboBoxCell();
+                    foreach (DataRow dataRow in dt.Rows)
+                    {
+                        string tableName = sendingGridView.Rows[argument.RowIndex].Cells[2].Value.ToString();
+                        if (dataRow[1].ToString().Equals(schemaList.Text) && dataRow[2].ToString().Equals(tableName))
+                        {
+                            String t = dataRow[dt.Columns.IndexOf("COLUMN_NAME")].ToString();
+                            String[] s = t.Split('_');
+                            if (s[0].ToLower().Equals(sendingGridView.Rows[argument.RowIndex].Cells[2].Value.ToString().ToLower())) //Check if field name is prefixed with table name
+                            {
+                                string newSelection = "@" + s[1];
+                                cb1.Items.Add(newSelection);                                                                   //If it is remove table name for parameter
+                            }
+                            else
+                            {
+                                cb1.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);    
+                            }
+                            cb2.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);
+                        }
+                    }
+                    storedProcedureOrderGridView.Rows[argument.RowIndex].Cells[11] = cb1;
+                    storedProcedureOrderGridView.Rows[argument.RowIndex].Cells[12] = cb2;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                
+            }
+        }
+
+        private List <StoredProcedureOrder> datgridViewToSPO(List<DataGridViewRow> gridViewRowList)
         {
 
             List<StoredProcedureOrder> spoList = new List<StoredProcedureOrder>();
@@ -154,9 +214,20 @@ namespace sqlTools
                     String cellColumnHeader = cell.DataGridView.Columns[cell.ColumnIndex].Name;
                     if (!cellColumnHeader.Contains("Button"))
                     {
-
-                        spo.setFieldValue(cell.DataGridView.Columns[cell.ColumnIndex].Name, cell.Value);
-                        //spo.GetType().GetProperty(cellColumnHeader).SetValue();
+                        if (cell.ColumnIndex == 5 || cell.ColumnIndex == 7 || cell.ColumnIndex == 12)  //These cells use a combo box to hold multiple selected values
+                        {                                                                              //Because of that they need to be pulled into a list before passed.
+                            List<string> valueList = new List<string>();
+                            DataGridViewComboBoxCell comboBoxCell = (DataGridViewComboBoxCell)cell;
+                            foreach (string value in comboBoxCell.Items)
+                            {
+                                valueList.Add(value);
+                            }
+                            spo.setFieldValue(cell.DataGridView.Columns[cell.ColumnIndex].Name, valueList);
+                        }
+                        else
+                        {
+                            spo.setFieldValue(cell.DataGridView.Columns[cell.ColumnIndex].Name, cell.Value);    
+                        }
                     }
                 }
                 spoList.Add(spo);
@@ -173,7 +244,7 @@ namespace sqlTools
             storedProcedureOrderGridView.Rows[rowIndex].Cells[0].Value = dbaseList.Text;  // Pull DB from DB list
             storedProcedureOrderGridView.Rows[rowIndex].Cells[1].Value = schemaList.Text; // Pull schema from schema list
             storedProcedureOrderGridView.Rows[rowIndex].Cells[2] = populateTableCB(); // Populate table cb from schema selection
-
+            
         }
 
         private DataGridViewComboBoxCell populateTableCB()
@@ -196,6 +267,23 @@ namespace sqlTools
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void fillParameterCB(DataGridView gridView, DataGridViewCellEventArgs argument)
+        {
+            string connString = DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text);
+            DataTable dt = DAL.getColumnMetaData(connString, schemaList.Text);
+            try
+            {
+                string selectedTable = gridView.Rows[argument.RowIndex].Cells[2].Value.ToString();
+                SelectionWindow sw = new SelectionWindow(dt, schemaList.Text, selectedTable, "COLUMN_NAME", gridView, argument.RowIndex, argument.ColumnIndex);
+                sw.Visible = true;
+            }
+            catch (NullReferenceException n)
+            {
+                MessageBox.Show("Please select a table first!", "SQL Tools", MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Asterisk);
+            }
         }
     }
 }

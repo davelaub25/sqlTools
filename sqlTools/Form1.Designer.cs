@@ -9,7 +9,7 @@ namespace sqlTools
 {
     partial class Form1
     {
-        
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -51,7 +51,7 @@ namespace sqlTools
             this.serverListLabel = new System.Windows.Forms.Label();
             this.dbaseListLabel = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.storedProcedureOrderGridView = new System.Windows.Forms.DataGridView();
+            Form1.storedProcedureOrderGridView = new System.Windows.Forms.DataGridView();
             this.addRowButton = new System.Windows.Forms.Button();
             this.schema = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dbase = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,10 +65,11 @@ namespace sqlTools
             this.type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.doBy = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.doByParameter = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.doByField = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.output = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.outputButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.schemaList = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.storedProcedureOrderGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(Form1.storedProcedureOrderGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -182,10 +183,10 @@ namespace sqlTools
             // 
             // storedProcedureOrderGridView
             // 
-            this.storedProcedureOrderGridView.AllowUserToAddRows = false;
-            this.storedProcedureOrderGridView.AllowUserToOrderColumns = true;
-            this.storedProcedureOrderGridView.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
-            this.storedProcedureOrderGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            Form1.storedProcedureOrderGridView.AllowUserToAddRows = false;
+            Form1.storedProcedureOrderGridView.AllowUserToOrderColumns = true;
+            Form1.storedProcedureOrderGridView.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
+            Form1.storedProcedureOrderGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -193,11 +194,11 @@ namespace sqlTools
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.storedProcedureOrderGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.storedProcedureOrderGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.storedProcedureOrderGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.schema,
+            Form1.storedProcedureOrderGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            Form1.storedProcedureOrderGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            Form1.storedProcedureOrderGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dbase,
+            this.schema,
             this.tableName,
             this.name,
             this.newProcedure,
@@ -208,10 +209,11 @@ namespace sqlTools
             this.type,
             this.doBy,
             this.doByParameter,
+            this.doByField,
             this.output,
             this.outputButtonColumn});
-            this.storedProcedureOrderGridView.Location = new System.Drawing.Point(15, 190);
-            this.storedProcedureOrderGridView.Name = "storedProcedureOrderGridView";
+            Form1.storedProcedureOrderGridView.Location = new System.Drawing.Point(15, 190);
+            Form1.storedProcedureOrderGridView.Name = "storedProcedureOrderGridView";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ControlDark;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -219,10 +221,11 @@ namespace sqlTools
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlLightLight;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.storedProcedureOrderGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.storedProcedureOrderGridView.Size = new System.Drawing.Size(1179, 299);
-            this.storedProcedureOrderGridView.TabIndex = 12;
-            this.storedProcedureOrderGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.storedProcedureOrderGridView_cellClick);
+            Form1.storedProcedureOrderGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            Form1.storedProcedureOrderGridView.Size = new System.Drawing.Size(1179, 299);
+            Form1.storedProcedureOrderGridView.TabIndex = 12;
+            Form1.storedProcedureOrderGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.storedProcedureOrderGridView_cellEdit);
+            Form1.storedProcedureOrderGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.storedProcedureOrderGridView_cellClick);
             // 
             // addRowButton
             // 
@@ -275,7 +278,7 @@ namespace sqlTools
             this.parameters.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.parameters.HeaderText = "Parameters";
             this.parameters.Name = "parameters";
-            this.parameters.ReadOnly = true;
+            this.parameters.ReadOnly = false;
             this.parameters.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.parameters.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.parameters.Width = 110;
@@ -296,7 +299,10 @@ namespace sqlTools
             // 
             // fieldsButton
             // 
-            this.fieldsButton.HeaderText = "";
+            this.fieldsButton.HeaderText = "...";
+            this.fieldsButton.Name = "fieldsButton";
+            this.fieldsButton.Text = "...";
+            this.fieldsButton.UseColumnTextForButtonValue = true;
             this.fieldsButton.Name = "fieldsButton";
             this.fieldsButton.Width = 22;
             // 
@@ -305,7 +311,7 @@ namespace sqlTools
             this.type.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.type.HeaderText = "Type";
             this.type.Items.AddRange(new object[] {
-            "Test"});
+            "Create", "Read", "Update", "Delete"});
             this.type.Name = "type";
             this.type.Width = 110;
             // 
@@ -320,10 +326,15 @@ namespace sqlTools
             // 
             this.doByParameter.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.doByParameter.HeaderText = "Do By Parameter";
-            this.doByParameter.Items.AddRange(new object[] {
-            "Test"});
             this.doByParameter.Name = "doByParameter";
             this.doByParameter.Width = 110;
+            // 
+            // doByField
+            // 
+            this.doByField.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.doByField.HeaderText = "Do By Field";
+            this.doByField.Name = "doByField";
+            this.doByField.Width = 110;
             // 
             // output
             // 
@@ -333,7 +344,9 @@ namespace sqlTools
             // 
             // outputButtonColumn
             // 
-            this.outputButtonColumn.HeaderText = "";
+            this.outputButtonColumn.HeaderText = "...";
+            this.outputButtonColumn.Text = "...";
+            this.outputButtonColumn.UseColumnTextForButtonValue = true;
             this.outputButtonColumn.Name = "outputButtonColumn";
             this.outputButtonColumn.Width = 22;
             // 
@@ -353,7 +366,7 @@ namespace sqlTools
             this.ClientSize = new System.Drawing.Size(1207, 595);
             this.Controls.Add(this.schemaList);
             this.Controls.Add(this.addRowButton);
-            this.Controls.Add(this.storedProcedureOrderGridView);
+            this.Controls.Add(Form1.storedProcedureOrderGridView);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.dbaseListLabel);
             this.Controls.Add(this.serverListLabel);
@@ -368,7 +381,7 @@ namespace sqlTools
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.storedProcedureOrderGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(Form1.storedProcedureOrderGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,7 +403,7 @@ namespace sqlTools
         private Table table1;
         private Table spTable;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.DataGridView storedProcedureOrderGridView;
+        public static System.Windows.Forms.DataGridView storedProcedureOrderGridView;
         private System.Windows.Forms.Button addRowButton;
         private DataGridViewTextBoxColumn schema;
         private DataGridViewTextBoxColumn dbase;
@@ -404,6 +417,7 @@ namespace sqlTools
         private DataGridViewComboBoxColumn type;
         private DataGridViewCheckBoxColumn doBy;
         private DataGridViewComboBoxColumn doByParameter;
+        private DataGridViewComboBoxColumn doByField;
         private DataGridViewTextBoxColumn output;
         private DataGridViewButtonColumn outputButtonColumn;
         private System.Windows.Forms.ListBox schemaList;

@@ -1,0 +1,33 @@
+﻿Create Key
+0 = Database name
+1 = New Procedure
+2 = Schema Name
+3 = Procedure Name
+4 = Parameter List
+5 = Table Name
+6 = Fields
+7 = Output Line
+8 = Values (Parameters without data type)
+***************************************************************
+Read Key
+0 = Database name
+1 = New Procedure
+2 = Schema Name
+3 = Procedure Name
+4 = Parameter List
+5 = Field Selection
+6 = Table Name
+7 = Do By Field
+8 = Do By Parameter
+***************************************************************
+Update Key
+0 = Database name
+1 = New Procedure
+2 = Schema Name
+3 = Procedure Name
+4 = Parameter List
+5 = Table Name
+6 = Fields
+7 = Output Line
+8 = Where Line
+***************************************************************

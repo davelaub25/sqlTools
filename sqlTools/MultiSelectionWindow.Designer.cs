@@ -28,17 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.selectionListBox = new System.Windows.Forms.CheckedListBox();
             this.acceptButton = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // selectionListBox
-            // 
-            this.selectionListBox.FormattingEnabled = true;
-            this.selectionListBox.Location = new System.Drawing.Point(12, 12);
-            this.selectionListBox.Name = "selectionListBox";
-            this.selectionListBox.Size = new System.Drawing.Size(255, 469);
-            this.selectionListBox.TabIndex = 0;
             // 
             // acceptButton
             // 
@@ -51,22 +44,31 @@
             this.acceptButton.UseVisualStyleBackColor = true;
             this.acceptButton.Click += new System.EventHandler(this.acceptButton_Click);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(13, 13);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(254, 457);
+            this.dataGridView1.TabIndex = 2;
+            // 
             // SelectionWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(279, 519);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.acceptButton);
-            this.Controls.Add(this.selectionListBox);
             this.Name = "SelectionWindow";
             this.Text = "SelectionWindow";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.CheckedListBox selectionListBox;
         private System.Windows.Forms.Button acceptButton;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

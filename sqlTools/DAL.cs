@@ -9,14 +9,14 @@ namespace sqlTools
 {
     public class DAL
     {
-        public static DataTable getColumnMetaData(String connString, String tableName)
+        public static DataTable getColumnMetaData(String connString, String schemaName)
         {
             var con = new SqlConnection(connString);
             Console.WriteLine("Attempting to connect to database");
             con.Open();
             Console.WriteLine("Connected");
             var schema = con.GetSchema("Columns");
-            DisplayData(schema, tableName);
+            //DisplayData(schema, schemaName);
             con.Close();
             return schema;
         }
@@ -68,11 +68,11 @@ namespace sqlTools
                 Console.WriteLine("============================");
             }
         }
-        private static void DisplayData(System.Data.DataTable table, String tableName)
+        private static void DisplayData(System.Data.DataTable table, String schemaName)
         {
             foreach (System.Data.DataRow row in table.Rows)
             {
-                if (row[2].ToString().Equals(tableName))
+                if (row[1].ToString().Equals(schemaName))
                 {
                     foreach (System.Data.DataColumn col in table.Columns)
                     {

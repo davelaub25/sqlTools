@@ -1,0 +1,21 @@
+﻿USE [{0}]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+{1} PROCEDURE [{2}].[{3}]
+	{4}
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+	
+    UPDATE [{2}].[{5}]
+    SET		
+		{6}
+	OUTPUT
+		{7}
+    WHERE
+		{};   
+END

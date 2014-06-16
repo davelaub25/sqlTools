@@ -20,10 +20,11 @@ namespace sqlTools
         private String _type;
         private bool _doBy;
         private String _doByParameter;
-        private String _output;
+        private String _doByField;
+        private List<String> _output;
         private String _tableName;
 
-        public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, List<String> parametersIn, List<String> fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String outputIn, String tableNameIn)
+        public StoredProcedureOrder(String dbaseIn, String schemaIn, String nameIn, bool newProcedureIn, List<String> parametersIn, List<String> fieldsIn, String typeIn, bool doByIn, String doByParameterIn, String doByFieldin, List<String> outputIn, String tableNameIn)
         {
             this.dbase = dbaseIn;
             this.schema = schemaIn;
@@ -34,6 +35,7 @@ namespace sqlTools
             this.type = typeIn;
             this.doBy = doByIn;
             this.doByParameter = doByParameterIn;
+            this.doByField = doByFieldin;
             this.output = outputIn;
             this.tableName = tableNameIn;
         }
@@ -48,6 +50,7 @@ namespace sqlTools
             this.type = null;
             this.doBy = false;
             this.doByParameter = null;
+            this.doByField = null;
             this.output = null;
             this.tableName = null;
         }
@@ -121,6 +124,20 @@ namespace sqlTools
 
             }
         }
+        public string doByField
+        {
+
+            get
+            {
+                return _doByField;
+
+            }
+            set
+            {
+                _doByField = value;
+
+            }
+        }
         public List<string> fields
         {
 
@@ -177,7 +194,7 @@ namespace sqlTools
 
             }
         }
-        public String output
+        public List<String> output
         {
 
             get

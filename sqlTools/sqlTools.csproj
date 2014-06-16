@@ -55,6 +55,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MultiSelectionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultiSelectionWindow.Designer.cs">
+      <DependentUpon>MultiSelectionWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="SelectionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +80,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="MultiSelectionWindow.resx">
+      <DependentUpon>MultiSelectionWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SelectionWindow.resx">
       <DependentUpon>SelectionWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -89,6 +98,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CreateTemplate.txt" />
+    <Content Include="DeleteTemplate.txt" />
+    <Content Include="ReadTemplate.txt" />
+    <Content Include="TemplateKey.txt" />
+    <Content Include="UpdateTemplate.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
