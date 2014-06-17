@@ -23,6 +23,13 @@ namespace sqlTools
         public SelectionWindow(DataTable dt, string filter, string currentTable, string dataType, DataGridView requestor, int row, int col)
         {
             InitializeComponent();
+            if (!col.Equals(6))
+            {
+                maskInstrucLabel.Visible = false;
+                maskButton.Visible = false;
+                maskLabel.Visible = false;
+                maskTextBox.Visible = false;
+            }
             dataTable = dt;
             filterString = filter;
             selectedTable = currentTable;
@@ -39,22 +46,30 @@ namespace sqlTools
                         string t = dataRow[dataTable.Columns.IndexOf(returnType)].ToString();
                         string[] s = t.Split('_');
                         string tableName = requestingGrid.Rows[gridRow].Cells[2].Value.ToString().ToLower();
+                        string paren1 = "";
+                        string paren2 = "";
+                        if (!dataRow[dataTable.Columns.IndexOf("CHARACTER_MAXIMUM_LENGTH")].Equals(""))
+                        {
+                            paren1 = "(";
+                            paren2 = ")";
+                        }
                         if (s[0].ToLower().Equals(tableName)) //Check if field name is prefixed with table name
                         {
-                            selectionListBox.Items.Add(s[1] + " " +
+                            
+                            selectionListBox.Items.Add("@" + s[1] + " " +
                                                        dataRow[dataTable.Columns.IndexOf("DATA_TYPE")].ToString()
-                                                       + "(" +
+                                                       + paren1 +
                                                        dataRow[dataTable.Columns.IndexOf("CHARACTER_MAXIMUM_LENGTH")]
-                                                           .ToString() + ") ,");
+                                                           .ToString() + paren2 + " ,");
                                 //If it is remove table name for parameter
                         }
                         else
                         {
-                            selectionListBox.Items.Add(dataRow[dataTable.Columns.IndexOf(returnType)].ToString() + " " +
+                            selectionListBox.Items.Add("@" + dataRow[dataTable.Columns.IndexOf(returnType)].ToString() + " " +
                                                    dataRow[dataTable.Columns.IndexOf("DATA_TYPE")].ToString()
-                                                   + "(" +
+                                                   + paren1 +
                                                    dataRow[dataTable.Columns.IndexOf("CHARACTER_MAXIMUM_LENGTH")]
-                                                       .ToString() + ") ,");    
+                                                       .ToString() + paren2 + " ,");    
                         }
                         
                     }
@@ -74,25 +89,9 @@ namespace sqlTools
 
             foreach (string selection in selectionListBox.CheckedItems)
             {
-                if (gridCol.Equals(6))
-                {
-                    string[] s = selection.Split('_');
-                    if (s[0].ToLower().Equals(requestingGrid.Rows[gridRow].Cells[2].Value.ToString().ToLower())) //Check if field name is prefixed with table name
-                    {
-                        string newSelection = s[1];
-                        comboBox.Items.Add("@" + newSelection);                                            //If it is remove table name for parameter
-                    }
-                    else
-                    {
-                        comboBox.Items.Add("@" + selection);                                                //Otherwise add an @ sign and leave it be
-                    }
-                }
-                else
-                {
                     comboBox.Items.Add(selection);
-                }
-                
             }
+            comboBox.FlatStyle = FlatStyle.Standard;
             Form1.storedProcedureOrderGridView.Rows[gridRow].Cells[gridCol-1] = comboBox;
             this.Close();
         }
@@ -113,29 +112,52 @@ namespace sqlTools
                 }
             }
             List<string> newItems = new List<string>();
-            for (int i = 0; i < selectionListBox.Items.Count; i++){
+            for (int i = 0; i < selectionListBox.Items.Count; i++)
+            {
                 string origItem = selectionListBox.Items[i].ToString();
                 string tempItem = "";
                 string tempHash = "";
-                for (int j = 0; j < selectionListBox.Items[i].ToString().Length; j++){
-                    if (hashLocations.Contains(j)){
+                for (int j = 0; j < selectionListBox.Items[i].ToString().Length-1; j++)
+                {
+                    if (hashLocations.Contains(j))
+                    {
                         tempHash = tempHash + "#";
                     }
-                    else{
+                    else
+                    {
                         tempHash = tempHash + "*";
                     }
                 }
-                for (int j = 0; j < tempHash.Length; j++){
-                    if (tempHash[j] == ('#')){}
-                    else{
-                        tempItem = tempItem + origItem[j];
+                for (int j = 0; j < tempHash.Length; j++)
+                {
+                    if (tempHash[j] == ('#'))
+                    {}
+                    else
+                    {
+                        tempItem = tempItem + origItem[j+1];
                     }
                 }
-                newItems.Add(tempItem);
+                newItems.Add("@" + tempItem);
             }
             selectionListBox.Items.Clear();
             foreach (string replacement in newItems){
                 selectionListBox.Items.Add(replacement);
+            }
+        }
+
+        private void selectAllButton_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < selectionListBox.Items.Count; i++)
+            {
+                selectionListBox.SetItemChecked(i, true);
+            }
+        }
+
+        private void deselectAllButton_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < selectionListBox.Items.Count; i++)
+            {
+                selectionListBox.SetItemChecked(i, false);
             }
         }
     }

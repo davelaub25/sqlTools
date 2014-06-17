@@ -180,33 +180,33 @@ namespace sqlTools
 
         private void storedProcedureOrderGridView_cellEdit(object sender, EventArgs e)
         {
-            DataGridView sendingGridView = (DataGridView)sender;
-            DataGridViewCellEventArgs argument = (DataGridViewCellEventArgs)e;
-            try
-            {
-                if (argument.ColumnIndex == tableNameColumnIndex &&
-                    !sendingGridView.Rows[argument.RowIndex].Cells[argument.ColumnIndex].Value.Equals(null))
-                {
-                    string connString = DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text);
-                    DataTable dt = DAL.getColumnMetaData(connString, schemaList.Text);
-                    DataGridViewComboBoxCell cb1 = new DataGridViewComboBoxCell();
-                    foreach (DataRow dataRow in dt.Rows)
-                    {
-                        string tableName = sendingGridView.Rows[argument.RowIndex].Cells[tableNameColumnIndex].Value.ToString();
-                        if (dataRow[1].ToString().Equals(schemaList.Text) &&
-                            dataRow[tableNameColumnIndex].ToString().Equals(tableName))
-                        {
-                            cb1.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);
-                        }
-
-                    }
-                    storedProcedureOrderGridView.Rows[argument.RowIndex].Cells[doByInfoColumnIndex] = cb1;
-                }
-            }
-            catch (NullReferenceException)
-            {
-                
-            }
+//            DataGridView sendingGridView = (DataGridView)sender;
+//            DataGridViewCellEventArgs argument = (DataGridViewCellEventArgs)e;
+//            try
+//            {
+//                if (argument.ColumnIndex == tableNameColumnIndex &&
+//                    !sendingGridView.Rows[argument.RowIndex].Cells[argument.ColumnIndex].Value.Equals(null))
+//                {
+//                    string connString = DAL.buildConnString(userText.Text, passwordText.Text, serverList.Text, dbaseList.Text);
+//                    DataTable dt = DAL.getColumnMetaData(connString, schemaList.Text);
+//                    DataGridViewComboBoxCell cb1 = new DataGridViewComboBoxCell();
+//                    foreach (DataRow dataRow in dt.Rows)
+//                    {
+//                        string tableName = sendingGridView.Rows[argument.RowIndex].Cells[tableNameColumnIndex].Value.ToString();
+//                        if (dataRow[1].ToString().Equals(schemaList.Text) &&
+//                            dataRow[tableNameColumnIndex].ToString().Equals(tableName))
+//                        {
+//                            cb1.Items.Add(dataRow[dt.Columns.IndexOf("COLUMN_NAME")]);
+//                        }
+//
+//                    }
+//                    storedProcedureOrderGridView.Rows[argument.RowIndex].Cells[doByInfoColumnIndex] = cb1;
+//                }
+//            }
+//            catch (NullReferenceException)
+//            {
+//                
+//            }
         }
 
         private List <StoredProcedureOrder> datgridViewToSPO(List<DataGridViewRow> gridViewRowList)
@@ -252,8 +252,9 @@ namespace sqlTools
             int rowIndex = storedProcedureOrderGridView.Rows.Add();
             storedProcedureOrderGridView.Rows[rowIndex].Cells[0].Value = dbaseList.Text;  // Pull DB from DB list
             storedProcedureOrderGridView.Rows[rowIndex].Cells[1].Value = schemaList.Text; // Pull schema from schema list
-            storedProcedureOrderGridView.Rows[rowIndex].Cells[2] = populateTableCB(); // Populate table cb from schema selection
-            
+            DataGridViewComboBoxCell dataComboBoxCell = populateTableCB();
+            dataComboBoxCell.FlatStyle = FlatStyle.Standard;
+            storedProcedureOrderGridView.Rows[rowIndex].Cells[2] = dataComboBoxCell; // Populate table cb from schema selection
         }
 
         private DataGridViewComboBoxCell populateTableCB()
@@ -270,6 +271,7 @@ namespace sqlTools
 
                 }
             }
+            CBCell.FlatStyle = FlatStyle.Standard;
             return CBCell;
         }
 
@@ -284,14 +286,14 @@ namespace sqlTools
             DataTable dt = DAL.getColumnMetaData(connString, schemaList.Text);
             try
             {
-                string selectedTable = gridView.Rows[argument.RowIndex].Cells[2].Value.ToString();
+                string selectedTable = gridView.Rows[argument.RowIndex].Cells[tableNameColumnIndex].Value.ToString();
                 SelectionWindow sw = new SelectionWindow(dt, schemaList.Text, selectedTable, "COLUMN_NAME", gridView, argument.RowIndex, argument.ColumnIndex);
                 sw.Visible = true;
             }
             catch (NullReferenceException n)
             {
-                MessageBox.Show("Please select a table first!", "SQL Tools", MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Asterisk);
+                MessageBox.Show("Please select a table first!", "SQL Tools", MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
             }
         }
         private void showMultiSelectWindow(DataGridView gridView, DataGridViewCellEventArgs argument)
@@ -302,7 +304,7 @@ namespace sqlTools
             try
             {
                 string selectedTable = gridView.Rows[argument.RowIndex].Cells[2].Value.ToString();
-                MultiSelectionWindow msw = new MultiSelectionWindow(dt, schemaList.Text, selectedTable);
+                MultiSelectionWindow msw = new MultiSelectionWindow(dt, schemaList.Text, selectedTable, argument.RowIndex);
                 msw.Visible = true;
             }
             catch (NullReferenceException n)

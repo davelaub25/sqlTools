@@ -256,6 +256,7 @@ namespace sqlTools
             // 
             this.tableName.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.tableName.HeaderText = "Table Name";
+            this.tableName.FlatStyle = FlatStyle.Standard;
             this.tableName.Items.AddRange(new object[] {
             "Test"});
             this.tableName.Name = "tableName";

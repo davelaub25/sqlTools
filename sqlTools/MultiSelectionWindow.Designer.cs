@@ -34,9 +34,10 @@
             this.fieldColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.addRowButton = new System.Windows.Forms.Button();
             this.acceptButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.maskTextBox = new System.Windows.Forms.TextBox();
             this.maskLabel = new System.Windows.Forms.Label();
             this.maskButton = new System.Windows.Forms.Button();
+            this.maskInstrucLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.multiSelectionGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,13 +93,14 @@
             this.acceptButton.TabIndex = 2;
             this.acceptButton.Text = "Accept";
             this.acceptButton.UseVisualStyleBackColor = true;
+            this.acceptButton.Click += new System.EventHandler(this.acceptButton_Click);
             // 
-            // textBox1
+            // maskTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 426);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(217, 20);
-            this.textBox1.TabIndex = 3;
+            this.maskTextBox.Location = new System.Drawing.Point(13, 426);
+            this.maskTextBox.Name = "maskTextBox";
+            this.maskTextBox.Size = new System.Drawing.Size(238, 20);
+            this.maskTextBox.TabIndex = 3;
             // 
             // maskLabel
             // 
@@ -111,21 +113,34 @@
             // 
             // maskButton
             // 
-            this.maskButton.Location = new System.Drawing.Point(154, 453);
+            this.maskButton.Location = new System.Drawing.Point(176, 452);
             this.maskButton.Name = "maskButton";
             this.maskButton.Size = new System.Drawing.Size(75, 23);
             this.maskButton.TabIndex = 5;
             this.maskButton.Text = "Mask";
             this.maskButton.UseVisualStyleBackColor = true;
+            this.maskButton.Click += new System.EventHandler(this.maskButton_Click);
+            // 
+            // maskInstrucLabel
+            // 
+            this.maskInstrucLabel.AutoSize = true;
+            this.maskInstrucLabel.Location = new System.Drawing.Point(13, 452);
+            this.maskInstrucLabel.MaximumSize = new System.Drawing.Size(150, 0);
+            this.maskInstrucLabel.Name = "maskInstrucLabel";
+            this.maskInstrucLabel.Size = new System.Drawing.Size(150, 52);
+            this.maskInstrucLabel.TabIndex = 6;
+            this.maskInstrucLabel.Text = "Use # to remove and * to keep.  You only need to fill to your last # the rest wil" +
+    "l be kept by default.";
             // 
             // MultiSelectionWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 494);
+            this.ClientSize = new System.Drawing.Size(359, 512);
+            this.Controls.Add(this.maskInstrucLabel);
             this.Controls.Add(this.maskButton);
             this.Controls.Add(this.maskLabel);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.maskTextBox);
             this.Controls.Add(this.acceptButton);
             this.Controls.Add(this.addRowButton);
             this.Controls.Add(this.multiSelectionGridView);
@@ -146,8 +161,9 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn parameterColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn equalColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn fieldColumn;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox maskTextBox;
         private System.Windows.Forms.Label maskLabel;
         private System.Windows.Forms.Button maskButton;
+        private System.Windows.Forms.Label maskInstrucLabel;
     }
 }
